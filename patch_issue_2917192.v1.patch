@@ -1,0 +1,29 @@
+diff --git a/core/lib/Drupal/Core/Form/FormBuilder.php b/core/lib/Drupal/Core/Form/FormBuilder.php
+index be000dcc25..20df6559e1 100644
+--- a/core/lib/Drupal/Core/Form/FormBuilder.php
++++ b/core/lib/Drupal/Core/Form/FormBuilder.php
+@@ -820,15 +820,15 @@ public function prepareForm($form_id, &$form, FormStateInterface &$form_state) {
+       }
+     }
+ 
+-    // Invoke hook_form_alter(), hook_form_BASE_FORM_ID_alter(), and
+-    // hook_form_FORM_ID_alter() implementations.
+-    $hooks = ['form'];
+-    if (isset($build_info['base_form_id'])) {
+-      $hooks[] = 'form_' . $build_info['base_form_id'];
+-    }
+-    $hooks[] = 'form_' . $form_id;
+-    $this->moduleHandler->alter($hooks, $form, $form_state, $form_id);
+-    $this->themeManager->alter($hooks, $form, $form_state, $form_id);
++    // Invoke hook_form_alter
++    $this->moduleHandler->alter(['form'], $form, $form_state, $form_id);
++    $this->themeManager->alter(['form'], $form, $form_state, $form_id);
++    // Invoke hook_form_BASE_FORM_ID_alter 
++    $this->moduleHandler->alter(['form_' . $build_info['base_form_id']], $form, $form_state, $form_id);
++    $this->themeManager->alter(['form_' . $build_info['base_form_id']], $form, $form_state, $form_id);
++    // Invoke hook_form_FORM_ID_alter 
++    $this->moduleHandler->alter(['form_' . $form_id], $form, $form_state, $form_id);
++    $this->themeManager->alter(['form_' . $form_id], $form, $form_state, $form_id);
+   }
+ 
+   /**

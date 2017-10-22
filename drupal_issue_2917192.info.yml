@@ -1,0 +1,9 @@
+name: 'test issue 2917192'
+description: ''
+type: module
+core: 8.x
+package: 'Custom'
+dependencies:
+  - ckeditor
+  - editor_advanced_link
+
