@@ -15,13 +15,15 @@ index be000dcc25..20df6559e1 100644
 -    $hooks[] = 'form_' . $form_id;
 -    $this->moduleHandler->alter($hooks, $form, $form_state, $form_id);
 -    $this->themeManager->alter($hooks, $form, $form_state, $form_id);
-+    // Invoke hook_form_alter
++    // Invoke hook_form_alter()
 +    $this->moduleHandler->alter(['form'], $form, $form_state, $form_id);
 +    $this->themeManager->alter(['form'], $form, $form_state, $form_id);
-+    // Invoke hook_form_BASE_FORM_ID_alter 
-+    $this->moduleHandler->alter(['form_' . $build_info['base_form_id']], $form, $form_state, $form_id);
-+    $this->themeManager->alter(['form_' . $build_info['base_form_id']], $form, $form_state, $form_id);
-+    // Invoke hook_form_FORM_ID_alter 
++    if (isset($build_info['base_form_id'])) {
++      // Invoke hook_form_BASE_FORM_ID_alter() 
++      $this->moduleHandler->alter(['form_' . $build_info['base_form_id']], $form, $form_state, $form_id);
++      $this->themeManager->alter(['form_' . $build_info['base_form_id']], $form, $form_state, $form_id);
++    }
++    // Invoke hook_form_FORM_ID_alter()
 +    $this->moduleHandler->alter(['form_' . $form_id], $form, $form_state, $form_id);
 +    $this->themeManager->alter(['form_' . $form_id], $form, $form_state, $form_id);
    }
